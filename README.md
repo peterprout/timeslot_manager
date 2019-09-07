@@ -1,5 +1,5 @@
 # Timeslot Manager
-An application that can be used to view the availability of your team at certain time-slots in the week.
+A website application that can be used to view the availability of your team at hourly time-slots in the week.
 
 # Changelog 2019-09-06
 -Added individual passwords for each member  
