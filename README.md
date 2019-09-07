@@ -2,12 +2,12 @@
 An application that can be used to view the availability of your team at certain time-slots in the week.
 
 # Changelog 2019-09-06
--Added individual passwords for each member
--Added the ability to change the admin password from the default
--Added the ability to change/reset member passwords
--Enforced member name uniqueness, preventing two users from having the same name.
--Fixed Bug on resetting errors where the wrong member was displayed in the success message.
--Fixed bug which prevented the removing of a member.
+-Added individual passwords for each member  
+-Added the ability to change the admin password from the default  
+-Added the ability to change/reset member passwords  
+-Enforced member name uniqueness, preventing two users from having the same name.  
+-Fixed Bug on resetting errors where the wrong member was displayed in the success message.  
+-Fixed bug which prevented the removing of a member.  
 
 # Installation
 Requirements: Server running MySQL and PHP scripts, such as a XAMPP installation.
