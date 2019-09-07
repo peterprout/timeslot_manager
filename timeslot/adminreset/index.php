@@ -72,7 +72,6 @@ require '../header.php';
         if (isset($_POST['new_pswd']) && isset($_POST['pswd'])) {
             $result = mysqli_query($conn_id, "Select pswd from timeMan_auth WHERE user = 'admin'");
             $row = mysqli_fetch_assoc($result);
-            echo $_POST['new_pswd'];
             if (password_verify($_POST['pswd'], $row['pswd'])) {
                 echo "<span>" . preg_match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})", "aB012345bbc") . "</span>";
                 #if (!preg_match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{7,})", $_POST['new_pswd'])) {
