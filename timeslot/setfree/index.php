@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <?php
 //Created by Peter Prout, Animal Welfare Society Chairperson 2017-18, 2018-19.
-$conn_id = new mysqli("localhost", "username", "password", "dbname");
+$conn_id = new mysqli("mysql", "user", "password", "db");
 require '../header.php';
 ?>
 
@@ -11,13 +11,13 @@ require '../header.php';
         <div class="row">
             <div class="col-xs-2 col-lg-4"></div>
             <div class="col-s-8 col-lg-4">
-                <form action='/aws/setfree/index.php' method='POST'>
+                <form action='/timeman/setfree/index.php' method='POST'>
                     <fieldset class="form-group ">
                         <legend> Name</legend>
                         <Select name="SName" class="form-control" id="name" required>
                             <option value="">--Select Name --</option>
                             <?php
-                            $result = mysqli_query($conn_id, "Select sname from AWS GROUP BY sname");
+                            $result = mysqli_query($conn_id, "Select sname from timeMan GROUP BY sname");
                             while ($row = mysqli_fetch_assoc($result)) {
                                 $name = $row['sname'];
                                 echo "<option value='$name'> $name </option> \n";
@@ -26,9 +26,12 @@ require '../header.php';
                         </Select> <br>
                         <?php
                         $verified = false;
-                        if (isset($_POST['pswd'])) {
-                            $result = mysqli_query($conn_id, "Select pswd from auth WHERE user = 'user'");
-                            $row = mysqli_fetch_assoc($result);
+                        if (isset($_POST['pswd']) && isset($_POST['SName'])) {
+                            $sqlprp = $conn_id->prepare("Select pswd from timeMan_user_auth WHERE user = ?");
+                            $sqlprp->bind_param("s",$_POST['SName']);
+                            $sqlprp->execute();
+                            $result = $sqlprp->get_result();
+                            $row = $result->fetch_assoc();
                             $verified = password_verify($_POST['pswd'], $row['pswd']);
                             if (!$verified) {
                                 echo "<button class=\"btn btn-danger\">Incorrect Password </button>";
@@ -233,11 +236,11 @@ require '../header.php';
                         <br>
                         <?php
                         if (isset($_POST['SName']) && $_POST['SName'] != "" && $verified) {
-                            $SName = $_POST['SName'];
+                            $Sname = $_POST['SName'];
                             if (isset($_POST['Monday'])) {
                                 $monday = $_POST['Monday'];
                                 foreach ($monday as $time) {
-                                    $sqlprp = $conn_id->prepare("UPDATE AWS SET available  = 'y' WHERE sname = ? AND weekday ='m' AND timeslot = ?" );
+                                    $sqlprp = $conn_id->prepare("UPDATE timeMan SET available  = 'y' WHERE sname = ? AND weekday ='m' AND timeslot = ?" );
                                     $sqlprp->bind_param("si", $Sname, $time);
                                     $sqlprp->execute();
                                 }
@@ -245,7 +248,7 @@ require '../header.php';
                             if (isset($_POST['Tuesday'])) {
                                 $Tuesday = $_POST['Tuesday'];
                                 foreach ($Tuesday as $time) {
-                                    $sqlprp = $conn_id->prepare("UPDATE AWS SET available  = 'y' WHERE sname = ? AND weekday ='t' AND timeslot = ?" );
+                                    $sqlprp = $conn_id->prepare("UPDATE timeMan SET available  = 'y' WHERE sname = ? AND weekday ='t' AND timeslot = ?" );
                                     $sqlprp->bind_param("si", $Sname, $time);
                                     $sqlprp->execute();
                                 }
@@ -253,7 +256,7 @@ require '../header.php';
                             if (!empty($_POST['Wednesday'])) {
                                 $Wednesday = $_POST['Wednesday'];
                                 foreach ($Wednesday as $time) {
-                                    $sqlprp = $conn_id->prepare("UPDATE AWS SET available  = 'y' WHERE sname = ? AND weekday ='w' AND timeslot = ?" );
+                                    $sqlprp = $conn_id->prepare("UPDATE timeMan SET available  = 'y' WHERE sname = ? AND weekday ='w' AND timeslot = ?" );
                                     $sqlprp->bind_param("si", $Sname, $time);
                                     $sqlprp->execute();
                                 }
@@ -261,7 +264,7 @@ require '../header.php';
                             if (isset($_POST['Thursday'])) {
                                 $Thursday = $_POST['Thursday'];
                                 foreach ($Thursday as $time) {
-                                    $sqlprp = $conn_id->prepare("UPDATE AWS SET available  = 'y' WHERE sname = ? AND weekday ='r' AND timeslot = ?" );
+                                    $sqlprp = $conn_id->prepare("UPDATE timeMan SET available  = 'y' WHERE sname = ? AND weekday ='r' AND timeslot = ?" );
                                     $sqlprp->bind_param("si", $Sname, $time);
                                     $sqlprp->execute();
                                 }
@@ -269,7 +272,7 @@ require '../header.php';
                             if (isset($_POST['Friday'])) {
                                 $Friday = $_POST['Friday'];
                                 foreach ($Friday as $time) {
-                                    $sqlprp = $conn_id->prepare("UPDATE AWS SET available  = 'y' WHERE sname = ? AND weekday ='f' AND timeslot = ?" );
+                                    $sqlprp = $conn_id->prepare("UPDATE timeMan SET available  = 'y' WHERE sname = ? AND weekday ='f' AND timeslot = ?" );
                                     $sqlprp->bind_param("si", $Sname, $time);
                                     $sqlprp->execute();
                                 }
