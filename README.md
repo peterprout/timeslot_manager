@@ -1,5 +1,9 @@
-# Timeslot Manager
+![TimeMan Logo](Screenshot/logo.png)
+
+# TimeMan: The Timeslot Manager
 A website application that can be used to view the availability of your team at hourly time-slots in the week.
+![Interactive timeslot where you can select the times](Screenshot/p1.PNG)
+![Click on the timetable slots to see who is busy](Screenshot/p2.PNG)
 
 # Changelog 2019-09-06
 -Added individual passwords for each member  
