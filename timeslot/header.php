@@ -30,6 +30,7 @@
                         <li><a href="/timeman/remove" class="navbutton">Remove a member</a></li>
                         <li><a href="/timeman/reset" class="navbutton">Reset All</a></li>
                         <li><a href="/timeman/adminreset" class="navbutton">Reset Admin Password</a></li>
+                        <li><a href="/timeman/resetdefault" class="navbutton">Reset Default Password</a></li>
 
                     </ul>
                 </li>

@@ -10,25 +10,32 @@ require '../header.php';
     $(function() {
         $("#sub").click(function (e) {
             e.preventDefault();
-            let pswd1 = $("#pswd").val();
+            let pswdbox = $("#pswd");
+            let pswd1 = pswdbox.val();
             let pswd2 = $("#pswd2").val();
             let notice = $("#notice");
 
             if (pswd1 === pswd2) {
-                if (!RegExp("^(?=.{8,})").test(pswd1)) { //RegEx to see if the password is atleast 8 characters long.
-                    notice.text("The password must be atleast 8 characters long")
-                }
-                else if (!RegExp("^(?=.*[a-z])").test(pswd1)) { //RegEx to see if the password has  at least 1 lowercase letter.
-                    notice.text("The password must have at least 1 lowercase letter.")
-                }
-                else if (!RegExp("^(?=.*[A-Z])").test(pswd1)) { //RegEx to see if the password has  at least 1 uppercase letter.
-                    notice.text("The password must have at least 1 uppercase letter.")
-                }
-                else if (!RegExp("^(?=.*[0-9])").test(pswd1)) { //RegEx to see if the password has at least one number.
-                    notice.text("The password must have at least 1 number.")
-                }
-                else {
+                if(pswd1 ==="") {
+                    pswdbox.val("1");
                     $("#newmem").submit();
+                }
+                else{
+                    if (!RegExp("^(?=.{8,})").test(pswd1)) { //RegEx to see if the password is atleast 8 characters long.
+                        notice.text("The password must be atleast 8 characters long")
+                    }
+                    else if (!RegExp("^(?=.*[a-z])").test(pswd1)) { //RegEx to see if the password has  at least 1 lowercase letter.
+                        notice.text("The password must have at least 1 lowercase letter.")
+                    }
+                    else if (!RegExp("^(?=.*[A-Z])").test(pswd1)) { //RegEx to see if the password has  at least 1 uppercase letter.
+                        notice.text("The password must have at least 1 uppercase letter.")
+                    }
+                    else if (!RegExp("^(?=.*[0-9])").test(pswd1)) { //RegEx to see if the password has at least one number.
+                        notice.text("The password must have at least 1 number.")
+                    }
+                    else {
+                        $("#newmem").submit();
+                    }
                 }
             }
             else {
@@ -53,13 +60,13 @@ require '../header.php';
                     </label>
                     <input class="form-control" type="text" name="newmem" id="newmem" required/>
                     <label class="control-label requiredField" for="pswd">
-                        Password
+                        New Password (Leave Blank to use default password).
                         <span class="asteriskField">
        </span>
                     </label>
                     <input class="form-control" id="pswd" name="pswd" type="password"   autocomplete="new-password" required/> <br>
                     <label class="control-label requiredField" for="pswd2">
-                        Confirm Password
+                        Confirm New Password (Leave Blank to use default password).
                         <span class="asteriskField">
        </span>
                     </label>
@@ -95,8 +102,14 @@ require '../header.php';
                 #if (!preg_match("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})", $_POST['pswd'])) {
                  #   echo "<h4> Password must have at least 8 characters, 1 number, 1 uppercase letter and 1 lowercase letter.</h4>";
                 #} else {
-                    $password = password_hash($_POST['pswd'], PASSWORD_BCRYPT);
-
+                        if($_POST['pswd'] == "1"){
+                            $result = mysqli_query($conn_id, "Select pswd from timeMan_auth WHERE user = 'user'");
+                            $row = mysqli_fetch_assoc($result);
+                            $password = $row['pswd'];
+                        }
+                        else {
+                            $password = password_hash($_POST['pswd'], PASSWORD_BCRYPT);
+                        }
                     $times = [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
                     $days = ["m", "t", "w", "r", "f"];
                     foreach ($days as $day) {

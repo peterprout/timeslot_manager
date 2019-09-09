@@ -23,7 +23,9 @@ PRIMARY KEY (user)
 
 //ADMIN PASSWORD ADDING
 $admin = password_hash("adminPASSWORD", PASSWORD_BCRYPT);
-mysqli_query($conn_id,"INSERT INTO timeMan_auth (user,pswd) VALUES ('admin','$admin')") or die(mysqli_error($conn_id));
+$default = password_hash("userPASSWORD", PASSWORD_BCRYPT);
+
+mysqli_query($conn_id,"INSERT INTO timeMan_auth (user,pswd) VALUES ('admin','$admin'),('user','$default')") or die(mysqli_error($conn_id));
 
 
 echo "Authorization table created successfully!";

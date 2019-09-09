@@ -42,7 +42,6 @@ function array_not_unique( $a = array() )
         if (isset($_POST['pswd'])) {
             $result = mysqli_query($conn_id, "Select pswd from timeMan_auth WHERE user = 'admin'");
             $row = mysqli_fetch_assoc($result);
-            $password = password_hash("Userpassword1", PASSWORD_BCRYPT);
             if (password_verify($_POST['pswd'], $row['pswd'])) {
                 mysqli_query($conn_id, "TRUNCATE TABLE timeMan") or die("<h4> Can't reset database. Please try again later </h4>");
                 mysqli_query($conn_id, "TRUNCATE TABLE timeMan_user_auth") or die("<h4> Can't reset database. Please try again later </h4>");
@@ -53,6 +52,9 @@ function array_not_unique( $a = array() )
                     $days = ["m", "t", "w", "r", "f"];
                     $duplicates = array_not_unique($members);
                     $unique = array_unique($members);
+                    $result = mysqli_query($conn_id, "Select pswd from timeMan_auth WHERE user = 'user'");
+                    $row = mysqli_fetch_assoc($result);
+                    $password = $row['pswd'];
                     if (count($duplicates) > 0) {
                         echo "<h3 style='color: darkred'> The following names were entered twice, and so only added once: </h3> ";
                         foreach ($duplicates as $name) {
